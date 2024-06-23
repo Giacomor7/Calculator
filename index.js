@@ -1,21 +1,22 @@
 const readline = require('readline-sync');
 
 console.log('Welcome to the calculator!');
+console.log('==============================');
 
-console.log('Please enter a number');
+console.log('\nPlease enter the first number');
 var number1 = readline.prompt();
 //var number1 = '1111' // for debugging
 
-while (isNaN(Number(number1))){
+while (isNaN(+number1)){
     console.log('This was not a valid number. Please enter a number.');
     number1 = readline.prompt();
 }
 
-console.log('Please enter a second number');
+console.log('\nPlease enter the second number');
 var number2 = readline.prompt();
 //var number2 = '111' // for debugging
 
-while (isNaN(Number(number2))){
+while (isNaN(+number2)){
     console.log('This was not a valid number. Please enter a number.');
     number2 = readline.prompt();
 }
@@ -46,8 +47,8 @@ var resultDigits = decimalNumber1 + decimalNumber2; // how many decimal places t
 
 
 var result = 
-    (Number(units1) * 10 ** decimalNumber1 + Number(decimals1)) 
-        * (Number(units2) * 10 ** decimalNumber2 + Number(decimals2))
+    (+units1 * 10 ** decimalNumber1 + +decimals1) 
+        * (+units2 * 10 ** decimalNumber2 + +decimals2)
 
 var resultString = String(result); // final result before adding commas or decimal point
 var resultUnitsNumber = resultString.length - resultDigits;
@@ -75,7 +76,7 @@ if (resultUnitsNumber > 3 && resultUnitsNumber < 7){
     resultUnits = buildString;
 }
 
-var message = 'The product of these numbers is: ';
+var message = '\nThe product of these numbers is: ';
 
 // Scientific notation
 if (resultUnitsNumber >= 7){
