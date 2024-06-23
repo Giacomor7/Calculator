@@ -55,46 +55,52 @@ if (decimals2 === undefined){
 var result; // decimal point will be added later except for /
 var resultDigits; // how many decimal places the result will have
 var resultString;
-if (operator == '+'){
-    while (decimalNumber1 > decimalNumber2){
-        decimals2 += '0';
-        decimalNumber2++;
-    }
-    while (decimalNumber1 < decimalNumber2){
-        decimals1 += '0';
-        decimalNumber1++;
-    }
-    resultDigits = decimalNumber1;
-    result = (+units1 * 10 ** decimalNumber1 + +decimals1) + (+units2 * 10 ** decimalNumber2 + +decimals2)
-} else if (operator == '-'){
-    while (decimalNumber1 > decimalNumber2){
-        decimals2 += '0';
-        decimalNumber2++;
-    }
-    while (decimalNumber1 < decimalNumber2){
-        decimals1 += '0';
-        decimalNumber1++;
-    }
-    resultDigits = decimalNumber1;
-    result = (+units1 * 10 ** decimalNumber1 + +decimals1) - (+units2 * 10 ** decimalNumber2 + +decimals2);
-} else if (operator == '*'){
-    resultDigits = decimalNumber1 + decimalNumber2; 
-    result = (+units1 * 10 ** decimalNumber1 + +decimals1) * (+units2 * 10 ** decimalNumber2 + +decimals2);
-} else if (operator == '/'){
-    result = +number1 / +number2;
-    resultDigits = Math.max(decimalNumber1, decimalNumber2, 10);
-        // keep answer to precision of original numbers or 10dp max
-        // implement recurring decimals here?
-    resultString = String(result);
-    let decimalPointIndex = resultString.indexOf('.');
-    resultString = resultString.substring(0, decimalPointIndex + 1 + resultDigits);
-        // maybe should be longer in cases such as 0.001 / 7 ?
-        // since they don't show all 10 recurring digits due to preceding 0s...
-    resultDigits = resultString.substring(decimalPointIndex + 1).length;
-    resultString = resultString.replace('.', '');
+
+switch (operator){
+    case '+':
+        while (decimalNumber1 > decimalNumber2){
+            decimals2 += '0';
+            decimalNumber2++;
+        }
+        while (decimalNumber1 < decimalNumber2){
+            decimals1 += '0';
+            decimalNumber1++;
+        }
+        resultDigits = decimalNumber1;
+        result = (+units1 * 10 ** decimalNumber1 + +decimals1) + (+units2 * 10 ** decimalNumber2 + +decimals2);
+        break;
+    case '-':
+        while (decimalNumber1 > decimalNumber2){
+            decimals2 += '0';
+            decimalNumber2++;
+        }
+        while (decimalNumber1 < decimalNumber2){
+            decimals1 += '0';
+            decimalNumber1++;
+        }
+        resultDigits = decimalNumber1;
+        result = (+units1 * 10 ** decimalNumber1 + +decimals1) - (+units2 * 10 ** decimalNumber2 + +decimals2);
+        break;
+    case '*':
+        resultDigits = decimalNumber1 + decimalNumber2; 
+        result = (+units1 * 10 ** decimalNumber1 + +decimals1) * (+units2 * 10 ** decimalNumber2 + +decimals2);
+        break;
+    case '/':
+        result = +number1 / +number2;
+        resultDigits = Math.max(decimalNumber1, decimalNumber2, 10);
+            // keep answer to precision of original numbers or 10dp max
+            // implement recurring decimals here?
+        resultString = String(result);
+        let decimalPointIndex = resultString.indexOf('.');
+        resultString = resultString.substring(0, decimalPointIndex + 1 + resultDigits);
+            // maybe should be longer in cases such as 0.001 / 7 ?
+            // since they don't show all 10 recurring digits due to preceding 0s...
+        resultDigits = resultString.substring(decimalPointIndex + 1).length;
+        resultString = resultString.replace('.', '');
+        break;
 }
 
-if (operator != '/'){
+if (operator != '/'){ // / is already in valid string form
     resultString = String(result); // final result before adding commas or decimal point
 }
 var resultUnitsNumber = resultString.length - resultDigits;
